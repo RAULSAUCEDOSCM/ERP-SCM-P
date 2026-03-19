@@ -3,136 +3,803 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ERP SCM | Dashboard</title>
+  <title>ERP SCM | Panel de Control</title>
   <style>
-    :root { color-scheme:dark; --panel:rgba(10,18,31,.88); --line:rgba(148,163,184,.14); --text:#e6edf8; --muted:#90a4c2; --accent:#f97316; --accent-soft:rgba(249,115,22,.16); --shadow:0 24px 60px rgba(2,6,23,.4); --radius-xl:28px; --radius-lg:20px; }
-    * { box-sizing:border-box; }
-    html,body { margin:0; min-height:100%; font-family:Bahnschrift,"Aptos","Segoe UI",sans-serif; background:radial-gradient(circle at top left, rgba(34,211,238,.12), transparent 24%), radial-gradient(circle at top right, rgba(249,115,22,.12), transparent 24%), linear-gradient(180deg, #040a12 0%, #07101b 50%, #0b1320 100%); color:var(--text); }
-    body { padding:24px; }
-    .app-shell { display:grid; grid-template-columns:260px 1fr; gap:20px; width:min(1400px,100%); margin:0 auto; }
-    .sidebar,.panel { border:1px solid var(--line); border-radius:var(--radius-xl); box-shadow:var(--shadow); backdrop-filter:blur(18px); }
-    .sidebar { padding:24px; background:rgba(5,12,22,.84); display:flex; flex-direction:column; gap:22px; }
-    .brand { padding-bottom:18px; border-bottom:1px solid var(--line); }
-    .brand strong,.brand span { display:block; }
-    .brand span { margin-top:6px; color:var(--muted); font-size:.92rem; }
-    .nav { display:grid; gap:10px; }
-    .nav-item { display:flex; align-items:center; gap:12px; padding:14px 16px; border-radius:14px; color:var(--text); text-decoration:none; background:transparent; border:1px solid transparent; }
-    .nav-item.active { background:linear-gradient(135deg, rgba(249,115,22,.18), rgba(249,115,22,.08)); border-color:rgba(249,115,22,.18); }
-    .nav-item span:last-child { color:var(--muted); margin-left:auto; font-size:.84rem; }
-    .sidebar-card { margin-top:auto; padding:18px; border-radius:20px; background:linear-gradient(160deg, rgba(34,211,238,.1), rgba(10,18,31,.86)); border:1px solid rgba(34,211,238,.18); }
-    .sidebar-card strong,.sidebar-card span { display:block; }
-    .sidebar-card strong { margin-bottom:8px; }
-    .sidebar-card span { color:var(--muted); line-height:1.6; font-size:.92rem; }
-    .panel { padding:24px; background:rgba(6,12,22,.78); }
-    .topbar { display:flex; align-items:center; justify-content:space-between; gap:16px; margin-bottom:24px; }
-    .topbar h1 { margin:0 0 6px; font-size:clamp(2rem,3vw,2.8rem); letter-spacing:-.04em; }
-    .topbar p { margin:0; color:var(--muted); line-height:1.6; }
-    .user-chip { padding:12px 16px; border-radius:999px; background:rgba(15,24,40,.74); border:1px solid var(--line); color:var(--muted); white-space:nowrap; }
-    .hero { display:grid; grid-template-columns:1.3fr .9fr; gap:18px; margin-bottom:18px; }
-    .hero-card,.kpi-card,.module-card,.timeline,.table-card { background:var(--panel); border:1px solid var(--line); border-radius:var(--radius-lg); }
-    .hero-card { padding:24px; background:radial-gradient(circle at top right, rgba(249,115,22,.16), transparent 28%), linear-gradient(160deg, rgba(249,115,22,.1), rgba(10,18,31,.94)); }
-    .hero-card strong { display:inline-flex; padding:8px 12px; border-radius:999px; background:var(--accent-soft); color:#ffd4b5; font-size:.82rem; text-transform:uppercase; letter-spacing:.08em; }
-    .hero-card h2 { margin:18px 0 12px; font-size:2rem; letter-spacing:-.04em; }
-    .hero-card p { margin:0; max-width:640px; color:var(--muted); line-height:1.7; }
-    .hero-metrics { margin-top:22px; display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:12px; }
-    .metric { padding:16px; border-radius:16px; background:rgba(8,14,24,.64); border:1px solid rgba(255,255,255,.06); }
-    .metric strong,.metric span,.kpi-card small,.kpi-card strong,.kpi-card span,.timeline-item strong,.timeline-item span { display:block; }
-    .metric strong { font-size:1.4rem; margin-bottom:6px; }
-    .metric span,.kpi-card span,.timeline-item span,.module-card p { color:var(--muted); }
-    .kpi-column { display:grid; gap:14px; }
-    .kpi-card,.timeline,.table-card,.module-card { padding:18px 20px; }
-    .kpi-card small { margin-bottom:10px; text-transform:uppercase; letter-spacing:.08em; color:var(--muted); }
-    .kpi-card strong { font-size:1.9rem; margin-bottom:6px; }
-    .grid { display:grid; grid-template-columns:1.2fr .8fr; gap:18px; }
-    .modules { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:16px; }
-    .module-card h3,.timeline h3,.table-card h3,.modules-header h3 { margin:0 0 12px; font-size:1.08rem; }
-    .module-card p { margin:0 0 16px; line-height:1.6; font-size:.92rem; }
-    .module-meta { display:flex; gap:8px; flex-wrap:wrap; }
-    .tag { padding:7px 10px; border-radius:999px; background:rgba(148,163,184,.1); color:#dce7f7; font-size:.82rem; }
-    .timeline-item { padding:14px 0; border-top:1px solid rgba(148,163,184,.12); }
-    .timeline-item:first-of-type { border-top:0; padding-top:0; }
-    table { width:100%; border-collapse:collapse; }
-    th,td { padding:12px 0; text-align:left; border-top:1px solid rgba(148,163,184,.12); font-size:.92rem; }
-    th { border-top:0; color:var(--muted); font-weight:600; }
-    .status { display:inline-flex; padding:6px 10px; border-radius:999px; font-size:.8rem; }
-    .ok { background:rgba(34,197,94,.12); color:#bbf7d0; } .warn { background:rgba(250,204,21,.12); color:#fde68a; } .info { background:rgba(34,211,238,.12); color:#a5f3fc; }
-    @media (max-width:1100px) { .app-shell,.hero,.grid { grid-template-columns:1fr; } .modules { grid-template-columns:1fr; } }
-    @media (max-width:760px) { body { padding:16px; } .sidebar,.panel { padding:18px; } .hero-metrics { grid-template-columns:1fr; } .topbar { flex-direction:column; align-items:flex-start; } }
+    :root {
+      color-scheme: dark;
+      --bg: #07111b;
+      --panel: rgba(10, 18, 30, 0.9);
+      --panel-soft: rgba(15, 25, 40, 0.82);
+      --line: rgba(148, 163, 184, 0.14);
+      --text: #e7eef8;
+      --muted: #91a5c2;
+      --accent: #f97316;
+      --accent-soft: rgba(249, 115, 22, 0.16);
+      --cyan: #22d3ee;
+      --green: #22c55e;
+      --yellow: #f59e0b;
+      --red: #fb7185;
+      --shadow: 0 24px 60px rgba(2, 6, 23, 0.42);
+      --radius-xl: 28px;
+      --radius-lg: 20px;
+      --radius-md: 16px;
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body {
+      margin: 0;
+      min-height: 100%;
+      font-family: Bahnschrift, "Aptos", "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(34, 211, 238, 0.14), transparent 24%),
+        radial-gradient(circle at top right, rgba(249, 115, 22, 0.12), transparent 24%),
+        linear-gradient(180deg, #040a12 0%, #07101b 50%, #0b1320 100%);
+      color: var(--text);
+    }
+
+    body { padding: 24px; }
+
+    .app-shell {
+      display: grid;
+      grid-template-columns: 270px 1fr;
+      gap: 20px;
+      width: min(1480px, 100%);
+      margin: 0 auto;
+    }
+
+    .sidebar,
+    .panel {
+      border: 1px solid var(--line);
+      border-radius: var(--radius-xl);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(18px);
+    }
+
+    .sidebar {
+      padding: 24px;
+      background: rgba(6, 13, 23, 0.9);
+      display: flex;
+      flex-direction: column;
+      gap: 22px;
+    }
+
+    .brand {
+      padding-bottom: 18px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .brand strong,
+    .brand span { display: block; }
+
+    .brand strong {
+      font-size: 1.2rem;
+      letter-spacing: 0.05em;
+    }
+
+    .brand span {
+      margin-top: 8px;
+      color: var(--muted);
+      line-height: 1.6;
+      font-size: 0.92rem;
+    }
+
+    .nav { display: grid; gap: 10px; }
+
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 16px;
+      border-radius: 14px;
+      color: var(--text);
+      text-decoration: none;
+      border: 1px solid transparent;
+      background: transparent;
+    }
+
+    .nav-item.active {
+      background: linear-gradient(135deg, rgba(249, 115, 22, 0.18), rgba(249, 115, 22, 0.08));
+      border-color: rgba(249, 115, 22, 0.18);
+    }
+
+    .nav-item span:last-child {
+      margin-left: auto;
+      color: var(--muted);
+      font-size: 0.84rem;
+    }
+
+    .sidebar-card {
+      margin-top: auto;
+      padding: 18px;
+      border-radius: var(--radius-lg);
+      background: linear-gradient(160deg, rgba(34, 211, 238, 0.1), rgba(10, 18, 31, 0.86));
+      border: 1px solid rgba(34, 211, 238, 0.18);
+    }
+
+    .sidebar-card strong,
+    .sidebar-card span { display: block; }
+
+    .sidebar-card strong { margin-bottom: 8px; }
+
+    .sidebar-card span {
+      color: var(--muted);
+      line-height: 1.6;
+      font-size: 0.92rem;
+    }
+
+    .panel {
+      padding: 24px;
+      background: rgba(6, 12, 22, 0.8);
+    }
+
+    .topbar {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 18px;
+      margin-bottom: 22px;
+    }
+
+    .topbar h1 {
+      margin: 0 0 6px;
+      font-size: clamp(2rem, 3vw, 2.8rem);
+      letter-spacing: -0.04em;
+    }
+
+    .topbar p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.7;
+      max-width: 760px;
+    }
+
+    .user-chip {
+      padding: 12px 16px;
+      border-radius: 999px;
+      background: var(--panel-soft);
+      border: 1px solid var(--line);
+      color: var(--muted);
+      white-space: nowrap;
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 18px;
+      margin-bottom: 18px;
+    }
+
+    .card {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-lg);
+    }
+
+    .hero-card {
+      padding: 24px;
+      background:
+        radial-gradient(circle at top right, rgba(249, 115, 22, 0.16), transparent 28%),
+        linear-gradient(160deg, rgba(249, 115, 22, 0.08), rgba(10, 18, 31, 0.94));
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: var(--accent-soft);
+      color: #ffd4b5;
+      font-size: 0.82rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .hero-card h2 {
+      margin: 18px 0 12px;
+      font-size: 2rem;
+      letter-spacing: -0.04em;
+    }
+
+    .hero-card p,
+    .insight-card p,
+    .user-card p,
+    .role-card p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    .hero-metrics {
+      margin-top: 22px;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .metric {
+      padding: 16px;
+      border-radius: 16px;
+      background: rgba(8, 14, 24, 0.68);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .metric strong,
+    .metric span { display: block; }
+
+    .metric strong {
+      font-size: 1.35rem;
+      margin-bottom: 6px;
+    }
+
+    .metric span {
+      color: var(--muted);
+      font-size: 0.88rem;
+    }
+
+    .insight-stack {
+      display: grid;
+      gap: 14px;
+    }
+
+    .insight-card {
+      padding: 20px;
+    }
+
+    .insight-card small {
+      display: block;
+      color: var(--muted);
+      margin-bottom: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .insight-card strong {
+      display: block;
+      font-size: 1.85rem;
+      margin-bottom: 6px;
+    }
+
+    .users-grid,
+    .roles-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+      margin-bottom: 18px;
+    }
+
+    .user-card,
+    .role-card {
+      padding: 20px;
+    }
+
+    .pill-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 11px;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      background: rgba(148, 163, 184, 0.1);
+      color: #dce7f7;
+    }
+
+    .pill.super {
+      background: rgba(249, 115, 22, 0.18);
+      color: #ffd9bf;
+    }
+
+    .pill.ok {
+      background: rgba(34, 197, 94, 0.14);
+      color: #bbf7d0;
+    }
+
+    .pill.info {
+      background: rgba(34, 211, 238, 0.14);
+      color: #a5f3fc;
+    }
+
+    .section-title {
+      margin: 0 0 14px;
+      font-size: 1.08rem;
+    }
+
+    .permissions-card {
+      padding: 22px;
+      overflow: hidden;
+    }
+
+    .permissions-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 18px;
+    }
+
+    .permissions-header p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.6;
+      max-width: 760px;
+    }
+
+    .toolbar {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 18px;
+    }
+
+    .control {
+      min-width: 220px;
+      padding: 12px 14px;
+      border-radius: 14px;
+      border: 1px solid var(--line);
+      background: rgba(8, 14, 24, 0.82);
+      color: var(--text);
+      font: inherit;
+    }
+
+    .permission-table-wrap {
+      overflow-x: auto;
+      border-radius: 18px;
+      border: 1px solid var(--line);
+      background: rgba(5, 11, 19, 0.82);
+    }
+
+    table {
+      width: 100%;
+      min-width: 980px;
+      border-collapse: collapse;
+    }
+
+    th,
+    td {
+      padding: 14px 16px;
+      text-align: left;
+      border-top: 1px solid rgba(148, 163, 184, 0.1);
+      vertical-align: middle;
+    }
+
+    thead th {
+      border-top: 0;
+      background: rgba(9, 17, 28, 0.96);
+      color: var(--muted);
+      font-size: 0.88rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    tbody tr:hover {
+      background: rgba(15, 25, 40, 0.45);
+    }
+
+    .module-name strong,
+    .module-name span {
+      display: block;
+    }
+
+    .module-name span {
+      color: var(--muted);
+      font-size: 0.86rem;
+      margin-top: 4px;
+    }
+
+    .switch-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(84px, 1fr));
+      gap: 10px;
+    }
+
+    .switch {
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      gap: 8px;
+      min-height: 44px;
+      padding: 10px 12px;
+      border-radius: 12px;
+      border: 1px solid rgba(148, 163, 184, 0.14);
+      background: rgba(9, 16, 28, 0.88);
+      color: var(--muted);
+      cursor: pointer;
+      transition: border-color 0.2s ease, background 0.2s ease, color 0.2s ease;
+    }
+
+    .switch input { display: none; }
+
+    .switch.active {
+      color: #f8fafc;
+      border-color: rgba(249, 115, 22, 0.36);
+      background: linear-gradient(135deg, rgba(249, 115, 22, 0.24), rgba(249, 115, 22, 0.08));
+    }
+
+    .switch.super-locked {
+      color: #ffd9bf;
+      border-color: rgba(249, 115, 22, 0.3);
+      background: rgba(249, 115, 22, 0.16);
+      cursor: default;
+    }
+
+    .legend {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 16px;
+    }
+
+    .legend-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--muted);
+      font-size: 0.88rem;
+    }
+
+    .dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: rgba(148, 163, 184, 0.3);
+    }
+
+    .dot.active { background: var(--green); }
+    .dot.locked { background: var(--accent); }
+    .dot.inherit { background: var(--cyan); }
+
+    .footer-grid {
+      margin-top: 18px;
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 18px;
+    }
+
+    .note-card,
+    .summary-card {
+      padding: 20px;
+    }
+
+    .summary-card ul,
+    .note-card ul {
+      margin: 0;
+      padding-left: 18px;
+      color: var(--muted);
+      line-height: 1.8;
+    }
+
+    .summary-card strong,
+    .note-card strong {
+      display: block;
+      margin-bottom: 12px;
+      font-size: 1rem;
+    }
+
+    @media (max-width: 1200px) {
+      .app-shell,
+      .hero,
+      .footer-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .users-grid,
+      .roles-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 760px) {
+      body { padding: 16px; }
+      .sidebar, .panel { padding: 18px; }
+      .topbar, .permissions-header { flex-direction: column; }
+      .hero-metrics { grid-template-columns: 1fr; }
+      .switch-grid { grid-template-columns: repeat(2, minmax(90px, 1fr)); }
+    }
   </style>
 </head>
 <body>
   <main class="app-shell">
     <aside class="sidebar">
-      <div class="brand"><strong>ERP SCM</strong><span>Vista conceptual del sistema de escritorio</span></div>
+      <div class="brand">
+        <strong>ERP SCM</strong>
+        <span>Panel de control de accesos, módulos y permisos por usuario.</span>
+      </div>
+
       <nav class="nav" aria-label="Navegación principal">
-        <a class="nav-item active" href="#"><span>Dashboard</span><span>Inicio</span></a>
-        <a class="nav-item" href="#"><span>Inventario</span><span>24 ítems</span></a>
-        <a class="nav-item" href="#"><span>Compras</span><span>12 OC</span></a>
-        <a class="nav-item" href="#"><span>Ventas</span><span>8 pedidos</span></a>
-        <a class="nav-item" href="#"><span>Reportes</span><span>5 KPI</span></a>
+        <a class="nav-item" href="#"><span>Dashboard</span><span>Inicio</span></a>
+        <a class="nav-item active" href="#"><span>Seguridad</span><span>Roles</span></a>
+        <a class="nav-item" href="#"><span>Inventario</span><span>Módulo</span></a>
+        <a class="nav-item" href="pedidos.html"><span>Pedidos</span><span>Nuevo</span></a>
+        <a class="nav-item" href="#"><span>Reportes</span><span>KPI</span></a>
         <a class="nav-item" href="index.html"><span>Volver al login</span><span>Salir</span></a>
       </nav>
-      <div class="sidebar-card"><strong>Siguiente paso técnico</strong><span>Conectar esta vista a autenticación real y a Azure SQL usando el esquema que ya dejamos preparado.</span></div>
+
+      <div class="sidebar-card">
+        <strong>Regla principal</strong>
+        <span>El rol Super Administrador siempre conserva acceso total. Los demás usuarios pueden recibir permisos finos por módulo.</span>
+      </div>
     </aside>
 
     <section class="panel">
       <header class="topbar">
         <div>
-          <h1>Panel principal</h1>
-          <p>Maqueta funcional para visualizar cómo podría sentirse el ERP una vez conectado a datos reales.</p>
+          <h1>Control de roles y permisos</h1>
+          <p>Desde este panel podrás decidir qué usuario puede ver, crear, editar o eliminar dentro de cada módulo del ERP. La vista está lista como maqueta funcional para conectar después con backend y Azure SQL.</p>
         </div>
-        <div class="user-chip">Administrador General · ERP SCM Central</div>
+        <div class="user-chip">Sesión actual · Super Administrador</div>
       </header>
 
       <section class="hero">
-        <article class="hero-card">
-          <strong>Operación consolidada</strong>
-          <h2>Un solo punto para compras, inventario, ventas y reportes.</h2>
-          <p>Esta vista resume el estado del negocio y ayuda a validar la dirección visual del proyecto antes de integrar backend, roles y consultas reales contra la base de datos.</p>
+        <article class="card hero-card">
+          <span class="eyebrow">Seguridad central</span>
+          <h2>Super Administrador con control total del sistema.</h2>
+          <p>Este rol está reservado para el creador del ERP y no debe depender de permisos operativos normales. Su función es administrar usuarios, roles, módulos y configuraciones críticas del sistema.</p>
           <div class="hero-metrics">
-            <div class="metric"><strong>98.2%</strong><span>Disponibilidad operativa</span></div>
-            <div class="metric"><strong>126</strong><span>Movimientos inventario hoy</span></div>
-            <div class="metric"><strong>34</strong><span>Documentos pendientes</span></div>
+            <div class="metric">
+              <strong>1</strong>
+              <span>Super Administrador protegido</span>
+            </div>
+            <div class="metric">
+              <strong>4</strong>
+              <span>Permisos por módulo</span>
+            </div>
+            <div class="metric">
+              <strong>5</strong>
+              <span>Módulos base del ERP</span>
+            </div>
           </div>
         </article>
-        <div class="kpi-column">
-          <article class="kpi-card"><small>Compras</small><strong>$248,900</strong><span>Órdenes generadas esta semana y seguimiento de recepción.</span></article>
-          <article class="kpi-card"><small>Ventas</small><strong>$391,420</strong><span>Facturación acumulada con tendencia positiva respecto a la semana previa.</span></article>
-          <article class="kpi-card"><small>Alertas</small><strong>7</strong><span>Productos con stock mínimo o tareas que requieren atención del usuario.</span></article>
+
+        <div class="insight-stack">
+          <article class="card insight-card">
+            <small>Modelo sugerido</small>
+            <strong>Roles + excepciones</strong>
+            <p>Un rol define la base de acceso y, además, puedes habilitar o restringir permisos específicos por usuario.</p>
+          </article>
+          <article class="card insight-card">
+            <small>Gobierno</small>
+            <strong>Panel único</strong>
+            <p>La administración de seguridad queda centralizada para que no dependas de cambios manuales en código o base.</p>
+          </article>
+          <article class="card insight-card">
+            <small>Riesgo</small>
+            <strong>Bajo control</strong>
+            <p>El Super Administrador no se deshabilita accidentalmente y mantiene acceso absoluto para recuperación.</p>
+          </article>
         </div>
       </section>
 
-      <section class="grid">
-        <div>
-          <div class="modules-header"><h3>Módulos listos para crecer</h3></div>
-          <div class="modules">
-            <article class="module-card"><h3>Inventario</h3><p>Control de existencias, entradas, salidas, conteos cíclicos y trazabilidad por almacén.</p><div class="module-meta"><span class="tag">Stock</span><span class="tag">Lotes</span><span class="tag">Trazabilidad</span></div></article>
-            <article class="module-card"><h3>Compras</h3><p>Solicitudes internas, órdenes de compra, recepción y evaluación de proveedores.</p><div class="module-meta"><span class="tag">OC</span><span class="tag">Recepción</span><span class="tag">Proveedores</span></div></article>
-            <article class="module-card"><h3>Ventas</h3><p>Clientes, cotizaciones, pedidos y facturación con visibilidad del avance comercial.</p><div class="module-meta"><span class="tag">Clientes</span><span class="tag">Pedidos</span><span class="tag">Cobranza</span></div></article>
-            <article class="module-card"><h3>Reportes</h3><p>Indicadores clave para dirección, operación y control financiero con filtros por periodo.</p><div class="module-meta"><span class="tag">KPI</span><span class="tag">Exportación</span><span class="tag">Tendencias</span></div></article>
+      <h3 class="section-title">Usuarios clave</h3>
+      <section class="users-grid">
+        <article class="card user-card">
+          <div class="pill-row">
+            <span class="pill super">Super Administrador</span>
+            <span class="pill ok">Activo</span>
+          </div>
+          <strong>Raúl Saucedo</strong>
+          <p>Creador del sistema. Acceso total a todos los módulos, configuraciones, seguridad y mantenimiento.</p>
+        </article>
+        <article class="card user-card">
+          <div class="pill-row">
+            <span class="pill info">Administrador</span>
+            <span class="pill ok">Activo</span>
+          </div>
+          <strong>Laura Méndez</strong>
+          <p>Administra operación diaria, catálogos y seguimiento. No debe tocar ajustes maestros del sistema.</p>
+        </article>
+        <article class="card user-card">
+          <div class="pill-row">
+            <span class="pill">Compras</span>
+            <span class="pill ok">Activo</span>
+          </div>
+          <strong>Carlos Ruiz</strong>
+          <p>Opera solicitudes y órdenes de compra. Su acceso debe estar limitado a compras y consultas relacionadas.</p>
+        </article>
+      </section>
+
+      <h3 class="section-title">Roles del sistema</h3>
+      <section class="roles-grid">
+        <article class="card role-card">
+          <div class="pill-row"><span class="pill super">Super Administrador</span></div>
+          <strong>Control absoluto</strong>
+          <p>Bypass de permisos normales. Siempre tiene lectura, creación, edición y eliminación en todos los módulos.</p>
+        </article>
+        <article class="card role-card">
+          <div class="pill-row"><span class="pill info">Administrador</span></div>
+          <strong>Operación general</strong>
+          <p>Gestiona usuarios operativos y módulos de negocio, con restricciones sobre seguridad crítica.</p>
+        </article>
+        <article class="card role-card">
+          <div class="pill-row"><span class="pill">Roles funcionales</span></div>
+          <strong>Compras, Almacén, Ventas</strong>
+          <p>Roles especializados para limitar qué usuarios ven y modifican cada proceso del ERP.</p>
+        </article>
+      </section>
+
+      <section class="card permissions-card">
+        <div class="permissions-header">
+          <div>
+            <h3 class="section-title" style="margin-bottom: 8px;">Panel de permisos por usuario</h3>
+            <p>Selecciona un usuario y ajusta sus permisos por módulo. La maqueta te deja visualizar exactamente cómo debería comportarse la administración fina de accesos.</p>
           </div>
         </div>
-        <aside class="timeline">
-          <h3>Ruta sugerida del proyecto</h3>
-          <div class="timeline-item"><strong>1. Base en Azure SQL</strong><span>Crear `ERP_SCM` y ejecutar el script `002_init_erp_scm_azure.sql`.</span></div>
-          <div class="timeline-item"><strong>2. Backend de autenticación</strong><span>Validar usuario, contraseña, empresa y roles usando las tablas `Users` y `UserRoles`.</span></div>
-          <div class="timeline-item"><strong>3. Dashboard real</strong><span>Conectar métricas y catálogos a consultas reales para abandonar el modo maqueta.</span></div>
-          <div class="timeline-item"><strong>4. Módulos por rol</strong><span>Activar navegación dinámica según permisos de `RoleModules`.</span></div>
-        </aside>
+
+        <div class="toolbar">
+          <select class="control" id="userSelector">
+            <option value="superadmin">Raúl Saucedo · Super Administrador</option>
+            <option value="admin">Laura Méndez · Administrador</option>
+            <option value="compras">Carlos Ruiz · Compras</option>
+          </select>
+          <select class="control" id="scopeSelector">
+            <option value="overrides">Permisos por usuario</option>
+            <option value="role">Base heredada del rol</option>
+          </select>
+        </div>
+
+        <div class="permission-table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Módulo</th>
+                <th>Acceso</th>
+                <th>Lectura</th>
+                <th>Crear</th>
+                <th>Editar</th>
+                <th>Eliminar</th>
+              </tr>
+            </thead>
+            <tbody id="permissionsTableBody"></tbody>
+          </table>
+        </div>
+
+        <div class="legend">
+          <span class="legend-item"><span class="dot active"></span>Permiso activo</span>
+          <span class="legend-item"><span class="dot locked"></span>Bloqueado por Super Administrador</span>
+          <span class="legend-item"><span class="dot inherit"></span>Base heredada del rol</span>
+        </div>
       </section>
 
-      <section class="table-card" style="margin-top:18px;">
-        <h3>Estado funcional actual</h3>
-        <table>
-          <thead><tr><th>Área</th><th>Estado</th><th>Detalle</th></tr></thead>
-          <tbody>
-            <tr><td>Login</td><td><span class="status ok">Visual listo</span></td><td>Pantalla de acceso terminada y enlazada al dashboard de demostración.</td></tr>
-            <tr><td>Base de datos</td><td><span class="status info">Preparada</span></td><td>Esquema base disponible para SQL Server y variante separada para Azure SQL.</td></tr>
-            <tr><td>Backend</td><td><span class="status warn">Pendiente</span></td><td>Aún falta la capa que autentique usuarios y consulte módulos reales.</td></tr>
-          </tbody>
-        </table>
+      <section class="footer-grid">
+        <article class="card summary-card">
+          <strong>Cómo debería funcionar en backend</strong>
+          <ul>
+            <li>El rol `Super Administrador` debe omitir todas las restricciones operativas normales.</li>
+            <li>Los permisos base viven por rol y los ajustes finos viven por usuario y módulo.</li>
+            <li>El login debe cargar rol, permisos heredados y sobreescrituras para construir el menú permitido.</li>
+          </ul>
+        </article>
+        <article class="card note-card">
+          <strong>Siguiente implementación</strong>
+          <ul>
+            <li>Diseñar el módulo de pedidos con scroll por producto y captura clara.</li>
+            <li>Crear API para listar usuarios, roles, módulos y permisos.</li>
+            <li>Guardar cambios del panel en Azure SQL.</li>
+            <li>Aplicar permisos reales al dashboard y a cada módulo.</li>
+          </ul>
+        </article>
       </section>
     </section>
   </main>
+
+  <script>
+    const permissionModel = {
+      modules: [
+        { code: "DASHBOARD", name: "Dashboard", description: "Resumen ejecutivo e indicadores." },
+        { code: "INVENTORY", name: "Inventario", description: "Stock, movimientos y ajustes." },
+        { code: "PURCHASES", name: "Compras", description: "Solicitudes, OC y recepción." },
+        { code: "SALES", name: "Ventas", description: "Pedidos, clientes y facturación." },
+        { code: "REPORTS", name: "Reportes", description: "KPI, consultas y análisis." }
+      ],
+      users: {
+        superadmin: {
+          role: "Super Administrador",
+          isSuperAdmin: true,
+          permissions: {}
+        },
+        admin: {
+          role: "Administrador",
+          isSuperAdmin: false,
+          permissions: {
+            DASHBOARD: { view: true, create: false, edit: false, delete: false },
+            INVENTORY: { view: true, create: true, edit: true, delete: false },
+            PURCHASES: { view: true, create: true, edit: true, delete: false },
+            SALES: { view: true, create: true, edit: true, delete: false },
+            REPORTS: { view: true, create: false, edit: false, delete: false }
+          }
+        },
+        compras: {
+          role: "Compras",
+          isSuperAdmin: false,
+          permissions: {
+            DASHBOARD: { view: true, create: false, edit: false, delete: false },
+            INVENTORY: { view: true, create: false, edit: false, delete: false },
+            PURCHASES: { view: true, create: true, edit: true, delete: false },
+            SALES: { view: false, create: false, edit: false, delete: false },
+            REPORTS: { view: false, create: false, edit: false, delete: false }
+          }
+        }
+      }
+    };
+
+    const userSelector = document.getElementById("userSelector");
+    const scopeSelector = document.getElementById("scopeSelector");
+    const tableBody = document.getElementById("permissionsTableBody");
+
+    function renderPermissions() {
+      const currentUser = permissionModel.users[userSelector.value];
+      const isRoleView = scopeSelector.value === "role";
+
+      tableBody.innerHTML = permissionModel.modules.map((module) => {
+        const saved = currentUser.permissions[module.code] || { view: false, create: false, edit: false, delete: false };
+        const permissions = currentUser.isSuperAdmin
+          ? { view: true, create: true, edit: true, delete: true }
+          : saved;
+
+        const accessLabel = currentUser.isSuperAdmin
+          ? "Total"
+          : isRoleView
+            ? "Heredado"
+            : "Personalizado";
+
+        return `
+          <tr>
+            <td class="module-name">
+              <strong>${module.name}</strong>
+              <span>${module.description}</span>
+            </td>
+            <td>${accessLabel}</td>
+            <td>${renderToggle(module.code, "view", permissions.view, currentUser.isSuperAdmin, isRoleView)}</td>
+            <td>${renderToggle(module.code, "create", permissions.create, currentUser.isSuperAdmin, isRoleView)}</td>
+            <td>${renderToggle(module.code, "edit", permissions.edit, currentUser.isSuperAdmin, isRoleView)}</td>
+            <td>${renderToggle(module.code, "delete", permissions.delete, currentUser.isSuperAdmin, isRoleView)}</td>
+          </tr>
+        `;
+      }).join("");
+
+      bindToggleEvents();
+    }
+
+    function renderToggle(moduleCode, action, checked, locked, inherited) {
+      const stateClass = locked ? "switch super-locked" : checked ? "switch active" : "switch";
+      const label = inherited && !locked ? "Heredado" : locked ? "Fijo" : checked ? "Activo" : "Inactivo";
+      const disabled = locked || inherited ? "disabled" : "";
+
+      return `
+        <label class="${stateClass}" data-module="${moduleCode}" data-action="${action}">
+          <input type="checkbox" ${checked ? "checked" : ""} ${disabled}>
+          <span>${label}</span>
+        </label>
+      `;
+    }
+
+    function bindToggleEvents() {
+      const toggles = tableBody.querySelectorAll(".switch:not(.super-locked)");
+      toggles.forEach((toggle) => {
+        const input = toggle.querySelector("input");
+        if (!input || input.disabled) return;
+
+        toggle.addEventListener("click", () => {
+          const moduleCode = toggle.dataset.module;
+          const action = toggle.dataset.action;
+          const currentUser = permissionModel.users[userSelector.value];
+          const current = currentUser.permissions[moduleCode] || { view: false, create: false, edit: false, delete: false };
+          current[action] = !current[action];
+          currentUser.permissions[moduleCode] = current;
+          renderPermissions();
+        });
+      });
+    }
+
+    userSelector.addEventListener("change", renderPermissions);
+    scopeSelector.addEventListener("change", renderPermissions);
+
+    renderPermissions();
+  </script>
 </body>
 </html>

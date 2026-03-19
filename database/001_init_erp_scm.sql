@@ -91,6 +91,24 @@ BEGIN
 END
 GO
 
+IF OBJECT_ID(N'dbo.UserModulePermissions', N'U') IS NULL
+BEGIN
+    CREATE TABLE dbo.UserModulePermissions
+    (
+        UserId INT NOT NULL,
+        ModuleId INT NOT NULL,
+        CanView BIT NOT NULL CONSTRAINT DF_UserModulePermissions_CanView DEFAULT (0),
+        CanCreate BIT NOT NULL CONSTRAINT DF_UserModulePermissions_CanCreate DEFAULT (0),
+        CanEdit BIT NOT NULL CONSTRAINT DF_UserModulePermissions_CanEdit DEFAULT (0),
+        CanDelete BIT NOT NULL CONSTRAINT DF_UserModulePermissions_CanDelete DEFAULT (0),
+        UpdatedAt DATETIME2(0) NOT NULL CONSTRAINT DF_UserModulePermissions_UpdatedAt DEFAULT (SYSDATETIME()),
+        CONSTRAINT PK_UserModulePermissions PRIMARY KEY (UserId, ModuleId),
+        CONSTRAINT FK_UserModulePermissions_Users FOREIGN KEY (UserId) REFERENCES dbo.Users (UserId),
+        CONSTRAINT FK_UserModulePermissions_Modules FOREIGN KEY (ModuleId) REFERENCES dbo.Modules (ModuleId)
+    );
+END
+GO
+
 IF OBJECT_ID(N'dbo.RoleModules', N'U') IS NULL
 BEGIN
     CREATE TABLE dbo.RoleModules
@@ -136,6 +154,13 @@ IF NOT EXISTS (SELECT 1 FROM dbo.Roles WHERE RoleName = N'Administrador')
 BEGIN
     INSERT INTO dbo.Roles (RoleName, RoleDescription, IsSystem)
     VALUES (N'Administrador', N'Acceso total al sistema', 1);
+END
+GO
+
+IF NOT EXISTS (SELECT 1 FROM dbo.Roles WHERE RoleName = N'Super Administrador')
+BEGIN
+    INSERT INTO dbo.Roles (RoleName, RoleDescription, IsSystem)
+    VALUES (N'Super Administrador', N'Control total del ERP reservado para el creador del sistema', 1);
 END
 GO
 
@@ -198,6 +223,7 @@ GO
 DECLARE @CompanyId INT = (SELECT TOP (1) CompanyId FROM dbo.Companies WHERE CompanyCode = N'CENTRAL');
 DECLARE @AdminRoleId INT = (SELECT TOP (1) RoleId FROM dbo.Roles WHERE RoleName = N'Administrador');
 DECLARE @AdminUserId INT;
+DECLARE @SuperAdminRoleId INT = (SELECT TOP (1) RoleId FROM dbo.Roles WHERE RoleName = N'Super Administrador');
 
 IF NOT EXISTS (SELECT 1 FROM dbo.Users WHERE UserName = N'admin')
 BEGIN
@@ -224,8 +250,35 @@ BEGIN
 END
 GO
 
+IF NOT EXISTS (SELECT 1 FROM dbo.Users WHERE UserName = N'superadmin')
+BEGIN
+    INSERT INTO dbo.Users
+    (
+        CompanyId,
+        UserName,
+        FullName,
+        Email,
+        PasswordHash,
+        PasswordSalt,
+        MustChangePassword
+    )
+    VALUES
+    (
+        @CompanyId,
+        N'superadmin',
+        N'Creador del Sistema',
+        N'superadmin@erpscm.local',
+        NULL,
+        NULL,
+        1
+    );
+END
+GO
+
 DECLARE @SeedAdminUserId INT = (SELECT TOP (1) UserId FROM dbo.Users WHERE UserName = N'admin');
 DECLARE @SeedAdminRoleId INT = (SELECT TOP (1) RoleId FROM dbo.Roles WHERE RoleName = N'Administrador');
+DECLARE @SeedSuperAdminUserId INT = (SELECT TOP (1) UserId FROM dbo.Users WHERE UserName = N'superadmin');
+DECLARE @SeedSuperAdminRoleId INT = (SELECT TOP (1) RoleId FROM dbo.Roles WHERE RoleName = N'Super Administrador');
 
 IF NOT EXISTS
 (
@@ -237,6 +290,19 @@ IF NOT EXISTS
 BEGIN
     INSERT INTO dbo.UserRoles (UserId, RoleId)
     VALUES (@SeedAdminUserId, @SeedAdminRoleId);
+END
+GO
+
+IF NOT EXISTS
+(
+    SELECT 1
+    FROM dbo.UserRoles
+    WHERE UserId = @SeedSuperAdminUserId
+      AND RoleId = @SeedSuperAdminRoleId
+)
+BEGIN
+    INSERT INTO dbo.UserRoles (UserId, RoleId)
+    VALUES (@SeedSuperAdminUserId, @SeedSuperAdminRoleId);
 END
 GO
 
@@ -257,5 +323,25 @@ WHERE r.RoleName = N'Administrador'
       FROM dbo.RoleModules rm
       WHERE rm.RoleId = r.RoleId
         AND rm.ModuleId = m.ModuleId
+  );
+GO
+
+INSERT INTO dbo.UserModulePermissions (UserId, ModuleId, CanView, CanCreate, CanEdit, CanDelete)
+SELECT
+    u.UserId,
+    m.ModuleId,
+    1,
+    1,
+    1,
+    1
+FROM dbo.Users u
+CROSS JOIN dbo.Modules m
+WHERE u.UserName = N'superadmin'
+  AND NOT EXISTS
+  (
+      SELECT 1
+      FROM dbo.UserModulePermissions ump
+      WHERE ump.UserId = u.UserId
+        AND ump.ModuleId = m.ModuleId
   );
 GO
