@@ -204,9 +204,9 @@
 
     .product-row {
       display: grid;
-      grid-template-columns: 920px minmax(0, 1fr);
+      grid-template-columns: max-content minmax(0, 1fr);
       gap: 8px;
-      min-height: 112px;
+      min-height: 96px;
     }
 
     .product-card,
@@ -215,49 +215,131 @@
       border: 1px solid var(--card-line);
       border-radius: 14px;
       color: var(--card-text);
-      min-height: 112px;
+      min-height: 96px;
     }
 
     .product-card {
-      padding: 7px;
+      padding: 6px;
       display: flex;
       flex-direction: column;
-      gap: 6px;
-    }
-
-    .field-grid {
-      display: grid;
-      grid-template-columns: 70px 1.85fr 0.95fr 0.95fr 1.05fr 0.95fr 68px 68px;
       gap: 4px;
     }
 
-    .field-grid.bottom {
-      grid-template-columns: repeat(7, minmax(72px, 1fr));
+    .product-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+      width: max-content;
+    }
+
+    .grid-row {
+      display: grid;
+      gap: 3px;
+    }
+
+    .grid-row.top {
+      grid-template-columns: 42px 293px;
+    }
+
+    .grid-row.metrics {
+      grid-template-columns: repeat(7, 42px);
+    }
+
+    .field-box.product-name {
+      width: 293px;
+    }
+
+    .field-box.square {
+      width: 42px;
+      min-width: 42px;
+      aspect-ratio: 1 / 1;
+      min-height: 0;
+      justify-self: start;
+      padding: 3px;
     }
 
     .field-box {
-      min-height: 40px;
-      padding: 4px 6px;
-      border-radius: 8px;
+      min-height: 34px;
+      padding: 3px 5px;
+      border-radius: 7px;
       background: #0b0e13;
       color: #f8fafc;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      gap: 3px;
+      gap: 2px;
       border: 1px solid rgba(255, 255, 255, 0.03);
     }
 
     .field-box span {
-      font-size: 0.49rem;
-      letter-spacing: 0.1em;
+      font-size: 0.43rem;
+      letter-spacing: 0.06em;
       text-transform: uppercase;
       color: #bccbdd;
+      line-height: 1.05;
     }
 
     .field-box strong {
-      font-size: 0.7rem;
+      font-size: 0.64rem;
       font-weight: 600;
+      line-height: 1.02;
+    }
+
+    .field-box.species {
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      background: linear-gradient(180deg, #eef2f7, #dce4ef);
+      color: #0f172a;
+      gap: 3px;
+    }
+
+    .field-box.species span {
+      color: #475569;
+    }
+
+    .species-icon {
+      font-size: 1.22rem;
+      line-height: 1;
+      filter: saturate(1.1);
+    }
+
+    .field-box.icon-box {
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      background: linear-gradient(180deg, #f8fafc, #dfe7f2);
+      color: #0f172a;
+      gap: 3px;
+      min-width: 0;
+    }
+
+    .field-box.icon-box span {
+      color: #475569;
+    }
+
+    .mini-icon {
+      display: inline-block;
+      color: #1e3a5f;
+      font-size: 1.08rem;
+      line-height: 1;
+    }
+
+    .mini-icon.alt {
+      color: #1c5fb8;
+    }
+
+    .mini-icon.warm {
+      color: #a8550a;
+    }
+
+    .mini-icon.letter {
+      font-size: 0.98rem;
+      font-weight: 700;
+    }
+
+    .field-box.product-name strong {
+      font-size: 0.74rem;
       line-height: 1.08;
     }
 
@@ -345,12 +427,6 @@
       border-radius: 999px;
     }
 
-    @media (max-width: 1500px) {
-      .product-row {
-        grid-template-columns: 760px minmax(0, 1fr);
-      }
-    }
-
     @media (max-width: 1180px) {
       .top-fields {
         grid-template-columns: repeat(3, minmax(160px, 1fr));
@@ -373,9 +449,20 @@
 
       .rail-label { display: none; }
 
-      .field-grid,
-      .field-grid.bottom {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
+      .product-grid {
+        width: 100%;
+      }
+
+      .grid-row.top {
+        grid-template-columns: 42px minmax(0, 1fr);
+      }
+
+      .grid-row.metrics {
+        grid-template-columns: repeat(4, 42px);
+      }
+
+      .field-box.product-name {
+        width: auto;
       }
 
       .detail-card {
@@ -384,10 +471,24 @@
     }
 
     @media (max-width: 640px) {
-      .top-fields,
-      .field-grid,
-      .field-grid.bottom {
+      .top-fields {
         grid-template-columns: 1fr;
+      }
+
+      .product-grid {
+        width: 100%;
+      }
+
+      .grid-row.top {
+        grid-template-columns: 42px minmax(0, 1fr);
+      }
+
+      .grid-row.metrics {
+        grid-template-columns: repeat(2, 42px);
+      }
+
+      .field-box.product-name {
+        width: auto;
       }
 
       .header {
@@ -438,24 +539,29 @@
         <div class="products">
           <article class="product-row">
             <article class="product-card">
-              <div class="field-grid">
-                <div class="field-box id"><span>1. PLU</span><strong>10452</strong></div>
-                <div class="field-box name"><span>2. Producto</span><strong>Pechuga de pollo fresca</strong></div>
-                <div class="field-box group"><span>3. Sublinea</span><strong>Refrigerados</strong></div>
-                <div class="field-box group"><span>4. Categoría</span><strong>Aves</strong></div>
-                <div class="field-box presentation"><span>5. Presentación</span><strong>Caja 12 piezas</strong></div>
-                <div class="field-box weight"><span>6. Kg/caja</span><strong>18 kg</strong></div>
-                <div class="field-box type-a"><span>7. Tipo A</span><strong>42</strong></div>
-                <div class="field-box type-b"><span>8. Tipo B</span><strong>18</strong></div>
-              </div>
-              <div class="field-grid bottom">
-                <div class="field-box sales"><span>9. Venta semanal</span><strong>96</strong></div>
-                <div class="field-box stock"><span>10. Inv. seguro</span><strong>24</strong></div>
-                <div class="field-box goal"><span>11. Objetivo</span><strong>120</strong></div>
-                <div class="field-box supplied"><span>12. Surtido</span><strong>88</strong></div>
-                <div class="field-box missing highlight"><span>13. Faltante</span><strong>32</strong></div>
-                <div class="field-box weekend"><span>14. Fin semana</span><strong>18</strong></div>
-                <div class="field-box loss"><span>15. Venta perdida</span><strong>7</strong></div>
+              <div class="product-grid">
+                <div class="grid-row top">
+                  <div class="field-box id"><span>1. PLU</span><strong>10452</strong></div>
+                  <div class="field-box name product-name"><span>2. Producto</span><strong>Pechuga de pollo fresca</strong></div>
+                </div>
+                <div class="grid-row metrics">
+                  <div class="field-box species square"><span>3. Tipo</span><strong class="species-icon" aria-label="Pollo">&#128020;</strong></div>
+                  <div class="field-box icon-box square"><span>4. Atributo</span><strong class="mini-icon" aria-label="Fresco">&#127831;</strong></div>
+                  <div class="field-box icon-box square"><span>5. Estado</span><strong class="mini-icon alt" aria-label="Gota">&#128167;</strong></div>
+                  <div class="field-box icon-box square"><span>6. Presentación</span><strong class="mini-icon warm" aria-label="Caja">&#128230;</strong></div>
+                  <div class="field-box square"><span>7. Kg</span><strong>18</strong></div>
+                  <div class="field-box icon-box square"><span>8. Tipo</span><strong class="mini-icon warm" aria-label="Estrella">&#11088;</strong></div>
+                  <div class="field-box icon-box square"><span>9. Clase</span><strong class="mini-icon letter alt" aria-label="Clasificación A">A</strong></div>
+                </div>
+                <div class="grid-row metrics">
+                  <div class="field-box sales square"><span>10. Venta semanal</span><strong>96</strong></div>
+                  <div class="field-box stock square"><span>11. Inv. seguro</span><strong>24</strong></div>
+                  <div class="field-box goal square"><span>12. Objetivo</span><strong>120</strong></div>
+                  <div class="field-box supplied square"><span>13. Surtido</span><strong>88</strong></div>
+                  <div class="field-box missing highlight square"><span>14. Faltante</span><strong>32</strong></div>
+                  <div class="field-box weekend square"><span>15. Fin semana</span><strong>18</strong></div>
+                  <div class="field-box loss square"><span>16. Venta perdida</span><strong>7</strong></div>
+                </div>
               </div>
             </article>
             <div class="detail-scroll">
@@ -483,24 +589,29 @@
 
           <article class="product-row">
             <article class="product-card">
-              <div class="field-grid">
-                <div class="field-box id"><span>1. PLU</span><strong>11703</strong></div>
-                <div class="field-box name"><span>2. Producto</span><strong>Carne molida premium</strong></div>
-                <div class="field-box group"><span>3. Sublinea</span><strong>Res</strong></div>
-                <div class="field-box group"><span>4. Categoría</span><strong>Proteína</strong></div>
-                <div class="field-box presentation"><span>5. Presentación</span><strong>Charola 6 bolsas</strong></div>
-                <div class="field-box weight"><span>6. Kg/caja</span><strong>15 kg</strong></div>
-                <div class="field-box type-a"><span>7. Tipo A</span><strong>34</strong></div>
-                <div class="field-box type-b"><span>8. Tipo B</span><strong>12</strong></div>
-              </div>
-              <div class="field-grid bottom">
-                <div class="field-box sales"><span>9. Venta semanal</span><strong>72</strong></div>
-                <div class="field-box stock"><span>10. Inv. seguro</span><strong>16</strong></div>
-                <div class="field-box goal"><span>11. Objetivo</span><strong>90</strong></div>
-                <div class="field-box supplied"><span>12. Surtido</span><strong>60</strong></div>
-                <div class="field-box missing highlight"><span>13. Faltante</span><strong>30</strong></div>
-                <div class="field-box weekend"><span>14. Fin semana</span><strong>12</strong></div>
-                <div class="field-box loss"><span>15. Venta perdida</span><strong>4</strong></div>
+              <div class="product-grid">
+                <div class="grid-row top">
+                  <div class="field-box id"><span>1. PLU</span><strong>11703</strong></div>
+                  <div class="field-box name product-name"><span>2. Producto</span><strong>Carne molida premium</strong></div>
+                </div>
+                <div class="grid-row metrics">
+                  <div class="field-box species square"><span>3. Tipo</span><strong class="species-icon" aria-label="Res">&#128046;</strong></div>
+                  <div class="field-box icon-box square"><span>4. Atributo</span><strong class="mini-icon warm" aria-label="Carne">&#128298;</strong></div>
+                  <div class="field-box icon-box square"><span>5. Estado</span><strong class="mini-icon alt" aria-label="Búsqueda">&#128269;</strong></div>
+                  <div class="field-box icon-box square"><span>6. Presentación</span><strong class="mini-icon warm" aria-label="Caja">&#128230;</strong></div>
+                  <div class="field-box square"><span>7. Kg</span><strong>15</strong></div>
+                  <div class="field-box icon-box square"><span>8. Tipo</span><strong class="mini-icon" aria-label="Ganado">&#128046;</strong></div>
+                  <div class="field-box icon-box square"><span>9. Clase</span><strong class="mini-icon letter warm" aria-label="Clasificación B">B</strong></div>
+                </div>
+                <div class="grid-row metrics">
+                  <div class="field-box sales square"><span>10. Venta semanal</span><strong>72</strong></div>
+                  <div class="field-box stock square"><span>11. Inv. seguro</span><strong>16</strong></div>
+                  <div class="field-box goal square"><span>12. Objetivo</span><strong>90</strong></div>
+                  <div class="field-box supplied square"><span>13. Surtido</span><strong>60</strong></div>
+                  <div class="field-box missing highlight square"><span>14. Faltante</span><strong>30</strong></div>
+                  <div class="field-box weekend square"><span>15. Fin semana</span><strong>12</strong></div>
+                  <div class="field-box loss square"><span>16. Venta perdida</span><strong>4</strong></div>
+                </div>
               </div>
             </article>
             <div class="detail-scroll">
@@ -528,24 +639,29 @@
 
           <article class="product-row">
             <article class="product-card">
-              <div class="field-grid">
-                <div class="field-box id"><span>1. PLU</span><strong>12888</strong></div>
-                <div class="field-box name"><span>2. Producto</span><strong>Queso panela artesanal</strong></div>
-                <div class="field-box group"><span>3. Sublinea</span><strong>Lácteos</strong></div>
-                <div class="field-box group"><span>4. Categoría</span><strong>Quesos</strong></div>
-                <div class="field-box presentation"><span>5. Presentación</span><strong>Caja 24 piezas</strong></div>
-                <div class="field-box weight"><span>6. Kg/caja</span><strong>10 kg</strong></div>
-                <div class="field-box type-a"><span>7. Tipo A</span><strong>28</strong></div>
-                <div class="field-box type-b"><span>8. Tipo B</span><strong>9</strong></div>
-              </div>
-              <div class="field-grid bottom">
-                <div class="field-box sales"><span>9. Venta semanal</span><strong>58</strong></div>
-                <div class="field-box stock"><span>10. Inv. seguro</span><strong>14</strong></div>
-                <div class="field-box goal"><span>11. Objetivo</span><strong>70</strong></div>
-                <div class="field-box supplied"><span>12. Surtido</span><strong>49</strong></div>
-                <div class="field-box missing highlight"><span>13. Faltante</span><strong>21</strong></div>
-                <div class="field-box weekend"><span>14. Fin semana</span><strong>11</strong></div>
-                <div class="field-box loss"><span>15. Venta perdida</span><strong>3</strong></div>
+              <div class="product-grid">
+                <div class="grid-row top">
+                  <div class="field-box id"><span>1. PLU</span><strong>12888</strong></div>
+                  <div class="field-box name product-name"><span>2. Producto</span><strong>Queso panela artesanal</strong></div>
+                </div>
+                <div class="grid-row metrics">
+                  <div class="field-box species square"><span>3. Tipo</span><strong class="species-icon" aria-label="Lácteos">&#128046;</strong></div>
+                  <div class="field-box icon-box square"><span>4. Atributo</span><strong class="mini-icon alt" aria-label="Congelado">&#10052;</strong></div>
+                  <div class="field-box icon-box square"><span>5. Estado</span><strong class="mini-icon alt" aria-label="Registro">&#128197;</strong></div>
+                  <div class="field-box icon-box square"><span>6. Presentación</span><strong class="mini-icon warm" aria-label="Caja">&#128230;</strong></div>
+                  <div class="field-box square"><span>7. Kg</span><strong>10</strong></div>
+                  <div class="field-box icon-box square"><span>8. Tipo</span><strong class="mini-icon warm" aria-label="Estrella">&#11088;</strong></div>
+                  <div class="field-box icon-box square"><span>9. Clase</span><strong class="mini-icon letter alt" aria-label="Clasificación A">A</strong></div>
+                </div>
+                <div class="grid-row metrics">
+                  <div class="field-box sales square"><span>10. Venta semanal</span><strong>58</strong></div>
+                  <div class="field-box stock square"><span>11. Inv. seguro</span><strong>14</strong></div>
+                  <div class="field-box goal square"><span>12. Objetivo</span><strong>70</strong></div>
+                  <div class="field-box supplied square"><span>13. Surtido</span><strong>49</strong></div>
+                  <div class="field-box missing highlight square"><span>14. Faltante</span><strong>21</strong></div>
+                  <div class="field-box weekend square"><span>15. Fin semana</span><strong>11</strong></div>
+                  <div class="field-box loss square"><span>16. Venta perdida</span><strong>3</strong></div>
+                </div>
               </div>
             </article>
             <div class="detail-scroll">
@@ -573,24 +689,29 @@
 
           <article class="product-row">
             <article class="product-card">
-              <div class="field-grid">
-                <div class="field-box id"><span>1. PLU</span><strong>13205</strong></div>
-                <div class="field-box name"><span>2. Producto</span><strong>Jamón de pavo rebanado</strong></div>
-                <div class="field-box group"><span>3. Sublinea</span><strong>Embutidos</strong></div>
-                <div class="field-box group"><span>4. Categoría</span><strong>Fríos</strong></div>
-                <div class="field-box presentation"><span>5. Presentación</span><strong>Caja 20 paquetes</strong></div>
-                <div class="field-box weight"><span>6. Kg/caja</span><strong>8 kg</strong></div>
-                <div class="field-box type-a"><span>7. Tipo A</span><strong>31</strong></div>
-                <div class="field-box type-b"><span>8. Tipo B</span><strong>10</strong></div>
-              </div>
-              <div class="field-grid bottom">
-                <div class="field-box sales"><span>9. Venta semanal</span><strong>64</strong></div>
-                <div class="field-box stock"><span>10. Inv. seguro</span><strong>18</strong></div>
-                <div class="field-box goal"><span>11. Objetivo</span><strong>82</strong></div>
-                <div class="field-box supplied"><span>12. Surtido</span><strong>55</strong></div>
-                <div class="field-box missing highlight"><span>13. Faltante</span><strong>27</strong></div>
-                <div class="field-box weekend"><span>14. Fin semana</span><strong>9</strong></div>
-                <div class="field-box loss"><span>15. Venta perdida</span><strong>5</strong></div>
+              <div class="product-grid">
+                <div class="grid-row top">
+                  <div class="field-box id"><span>1. PLU</span><strong>13205</strong></div>
+                  <div class="field-box name product-name"><span>2. Producto</span><strong>Jamón de pavo rebanado</strong></div>
+                </div>
+                <div class="grid-row metrics">
+                  <div class="field-box species square"><span>3. Tipo</span><strong class="species-icon" aria-label="Pavo">&#128020;</strong></div>
+                  <div class="field-box icon-box square"><span>4. Atributo</span><strong class="mini-icon warm" aria-label="Corte">&#9660;</strong></div>
+                  <div class="field-box icon-box square"><span>5. Estado</span><strong class="mini-icon alt" aria-label="Llamada">&#128222;</strong></div>
+                  <div class="field-box icon-box square"><span>6. Presentación</span><strong class="mini-icon warm" aria-label="Caja">&#128230;</strong></div>
+                  <div class="field-box square"><span>7. Kg</span><strong>08</strong></div>
+                  <div class="field-box icon-box square"><span>8. Tipo</span><strong class="mini-icon warm" aria-label="Marca">&#127775;</strong></div>
+                  <div class="field-box icon-box square"><span>9. Clase</span><strong class="mini-icon letter" aria-label="Clasificación C">C</strong></div>
+                </div>
+                <div class="grid-row metrics">
+                  <div class="field-box sales square"><span>10. Venta semanal</span><strong>64</strong></div>
+                  <div class="field-box stock square"><span>11. Inv. seguro</span><strong>18</strong></div>
+                  <div class="field-box goal square"><span>12. Objetivo</span><strong>82</strong></div>
+                  <div class="field-box supplied square"><span>13. Surtido</span><strong>55</strong></div>
+                  <div class="field-box missing highlight square"><span>14. Faltante</span><strong>27</strong></div>
+                  <div class="field-box weekend square"><span>15. Fin semana</span><strong>9</strong></div>
+                  <div class="field-box loss square"><span>16. Venta perdida</span><strong>5</strong></div>
+                </div>
               </div>
             </article>
             <div class="detail-scroll">
