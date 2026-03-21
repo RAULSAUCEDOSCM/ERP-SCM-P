@@ -202,6 +202,136 @@
       padding-right: 4px;
     }
 
+    .board-toolbar {
+      display: grid;
+      grid-template-columns: 260px minmax(0, 1fr);
+      gap: 10px;
+      align-items: stretch;
+      padding: 2px 2px 0;
+    }
+
+    .range-filter {
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+    }
+
+    .range-filter label {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      color: var(--muted);
+      font-size: 0.65rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .range-filter select {
+      min-width: 260px;
+      height: 38px;
+      padding: 0 38px 0 12px;
+      border-radius: 10px;
+      border: 1px solid var(--line);
+      background: linear-gradient(180deg, rgba(12, 19, 31, 0.98), rgba(8, 13, 22, 0.98));
+      color: var(--text);
+      font: inherit;
+      font-size: 0.84rem;
+      outline: none;
+      appearance: none;
+      background-image:
+        linear-gradient(45deg, transparent 50%, #8ea2bf 50%),
+        linear-gradient(135deg, #8ea2bf 50%, transparent 50%);
+      background-position:
+        calc(100% - 18px) calc(50% - 3px),
+        calc(100% - 12px) calc(50% - 3px);
+      background-size: 6px 6px, 6px 6px;
+      background-repeat: no-repeat;
+    }
+
+    .range-filter select:focus {
+      border-color: rgba(249, 115, 22, 0.48);
+      box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.14);
+    }
+
+    .week-strip {
+      display: grid;
+      grid-template-columns: repeat(14, minmax(72px, 1fr));
+      gap: 2px;
+      padding: 8px;
+      border-radius: 12px;
+      border: 1px solid var(--line);
+      background: linear-gradient(180deg, rgba(9, 16, 27, 0.98), rgba(5, 10, 18, 0.96));
+      overflow-x: auto;
+    }
+
+    .strip-cell {
+      min-height: 34px;
+      padding: 4px 6px;
+      border-radius: 10px;
+      background: rgba(229, 231, 235, 0.98);
+      border: 1px solid rgba(148, 163, 184, 0.22);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.16);
+      color: #0f172a;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      font-size: 0.72rem;
+      font-weight: 700;
+      line-height: 1.1;
+    }
+
+    .strip-cell.is-dark {
+      background: #202338;
+      color: #f8fafc;
+    }
+
+    .strip-cell.is-light {
+      background: #f8fafc;
+      color: #0f172a;
+    }
+
+    .strip-cell.is-empty {
+      background: #e5e7eb;
+      color: transparent;
+    }
+
+    .strip-cell.is-value {
+      justify-content: flex-end;
+      padding-right: 10px;
+      font-size: 0.9rem;
+    }
+
+    .strip-cell.is-money {
+      font-size: 0.95rem;
+    }
+
+    .strip-cell.is-percent-green {
+      background: #f8fafc;
+      color: #0f172a;
+    }
+
+    .strip-cell.is-percent-amber {
+      background: #f8fafc;
+      color: #0f172a;
+    }
+
+    .strip-cell.is-status {
+      gap: 8px;
+    }
+
+    .status-dot {
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: #9ca3af;
+      display: inline-grid;
+      place-items: center;
+      color: #ffffff;
+      font-size: 0.72rem;
+      font-weight: 900;
+    }
+
     .product-row {
       display: grid;
       grid-template-columns: max-content minmax(0, 1fr);
@@ -375,44 +505,103 @@
       flex-direction: column;
       justify-content: center;
       gap: 8px;
-      min-width: 980px;
-    }
-
-    .detail-card strong {
-      font-size: 0.8rem;
-      letter-spacing: 0.01em;
+      min-width: 840px;
     }
 
     .detail-list {
       display: grid;
-      grid-template-columns: repeat(14, minmax(88px, 1fr));
+      grid-template-columns: repeat(9, minmax(86px, 1fr));
       gap: 6px;
     }
 
-    .day-box {
-      padding: 7px 5px;
+    .metric-box {
+      padding: 7px 6px;
       border-radius: 8px;
       background: rgba(11, 15, 21, 0.04);
       border: 1px solid rgba(15, 23, 42, 0.1);
       text-align: center;
+      min-height: 54px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 5px;
     }
 
-    .day-box span,
-    .day-box strong {
+    .metric-box span,
+    .metric-box strong {
       display: block;
     }
 
-    .day-box span {
-      font-size: 0.55rem;
+    .metric-box span {
+      font-size: 0.54rem;
       color: #475569;
       text-transform: uppercase;
-      letter-spacing: 0.08em;
-      margin-bottom: 4px;
+      letter-spacing: 0.07em;
+      line-height: 1.1;
     }
 
-    .day-box strong {
+    .metric-box strong {
       font-size: 0.78rem;
       color: #0f172a;
+    }
+
+    .metric-box.is-accent {
+      background: rgba(34, 197, 94, 0.12);
+      border-color: rgba(22, 163, 74, 0.24);
+    }
+
+    .metric-box.is-positive {
+      background: rgba(125, 211, 252, 0.14);
+      border-color: rgba(14, 165, 233, 0.2);
+    }
+
+    .metric-box.is-sales {
+      background: rgba(59, 130, 246, 0.12);
+      border-color: rgba(37, 99, 235, 0.22);
+    }
+
+    .metric-box.is-stock {
+      background: rgba(245, 158, 11, 0.12);
+      border-color: rgba(217, 119, 6, 0.24);
+    }
+
+    .metric-box.is-order {
+      background: rgba(14, 165, 233, 0.14);
+      border-color: rgba(2, 132, 199, 0.22);
+    }
+
+    .metric-box.is-warning {
+      background: rgba(239, 68, 68, 0.12);
+      border-color: rgba(220, 38, 38, 0.22);
+    }
+
+    .metric-box.is-muted {
+      background: rgba(100, 116, 139, 0.12);
+      border-color: rgba(71, 85, 105, 0.2);
+    }
+
+    .metric-action {
+      min-height: 54px;
+      border: 0;
+      border-radius: 8px;
+      background: linear-gradient(135deg, #f97316, #ea580c);
+      color: #fff7ed;
+      font: inherit;
+      font-size: 0.78rem;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 10px 22px rgba(249, 115, 22, 0.2);
+      transition: transform 0.18s ease, filter 0.18s ease, box-shadow 0.18s ease;
+    }
+
+    .metric-action:hover {
+      transform: translateY(-1px);
+      filter: brightness(1.03);
+      box-shadow: 0 14px 26px rgba(249, 115, 22, 0.24);
+    }
+
+    .metric-action:active {
+      transform: translateY(1px);
     }
 
     .products::-webkit-scrollbar,
@@ -430,6 +619,10 @@
     @media (max-width: 1180px) {
       .top-fields {
         grid-template-columns: repeat(3, minmax(160px, 1fr));
+      }
+
+      .board-toolbar {
+        grid-template-columns: 1fr;
       }
 
       .product-row {
@@ -466,7 +659,7 @@
       }
 
       .detail-card {
-        min-width: 620px;
+        min-width: 840px;
       }
     }
 
@@ -496,7 +689,7 @@
       }
 
       .detail-card {
-        min-width: 420px;
+        min-width: 840px;
       }
     }
   </style>
@@ -537,51 +730,103 @@
         </div>
 
         <div class="products">
+          <div class="board-toolbar">
+            <div class="range-filter">
+              <label for="dayRange">
+                Rango semanal
+                <select id="dayRange" name="dayRange" aria-label="Seleccionar rango semanal">
+                  <option>Domingo - Lunes</option>
+                  <option>Lunes - Martes</option>
+                  <option>Martes - Miercoles</option>
+                  <option>Miercoles - Jueves</option>
+                  <option>Jueves - Viernes</option>
+                  <option>Viernes - Sabado</option>
+                  <option>Sabado - Domingo</option>
+                </select>
+              </label>
+            </div>
+
+            <div class="week-strip" aria-label="Resumen semanal">
+              <div class="strip-cell is-dark">Lunes</div>
+              <div class="strip-cell is-light">16-mar-26</div>
+              <div class="strip-cell is-dark">Inventario</div>
+              <div class="strip-cell is-empty">&nbsp;</div>
+              <div class="strip-cell is-dark">Ventas ant</div>
+              <div class="strip-cell is-value">0.00</div>
+              <div class="strip-cell is-dark">Optimo</div>
+              <div class="strip-cell is-value is-percent-green">37.84%</div>
+              <div class="strip-cell is-empty">&nbsp;</div>
+              <div class="strip-cell is-value is-percent-amber">31.75%</div>
+              <div class="strip-cell is-dark">Pedido</div>
+              <div class="strip-cell is-light">Domingo</div>
+              <div class="strip-cell is-light">15-mar-26</div>
+              <div class="strip-cell is-dark">Folio</div>
+
+              <div class="strip-cell is-dark">Sábado</div>
+              <div class="strip-cell is-empty">&nbsp;</div>
+              <div class="strip-cell is-value is-money">7,173.69</div>
+              <div class="strip-cell is-empty">&nbsp;</div>
+              <div class="strip-cell is-dark">Ventas</div>
+              <div class="strip-cell is-value">0.00</div>
+              <div class="strip-cell is-dark">Limite</div>
+              <div class="strip-cell is-value is-percent-green">31.52%</div>
+              <div class="strip-cell is-empty">&nbsp;</div>
+              <div class="strip-cell is-value is-percent-amber">26.45%</div>
+              <div class="strip-cell is-dark">Distribución</div>
+              <div class="strip-cell is-light">Lunes</div>
+              <div class="strip-cell is-light">16-mar-26</div>
+              <div class="strip-cell is-status"><span class="status-dot">✓</span><span>4</span></div>
+            </div>
+          </div>
+
           <article class="product-row">
             <article class="product-card">
               <div class="product-grid">
                 <div class="grid-row top">
-                  <div class="field-box id"><span>1. PLU</span><strong>10452</strong></div>
-                  <div class="field-box name product-name"><span>2. Producto</span><strong>Pechuga de pollo fresca</strong></div>
+                  <div class="field-box id"><span>PLU</span><strong>10452</strong></div>
+                  <div class="field-box name product-name"><span>Producto</span><strong>Pechuga de pollo fresca</strong></div>
                 </div>
                 <div class="grid-row metrics">
-                  <div class="field-box species square"><span>3. Tipo</span><strong class="species-icon" aria-label="Pollo">&#128020;</strong></div>
-                  <div class="field-box icon-box square"><span>4. Atributo</span><strong class="mini-icon" aria-label="Fresco">&#127831;</strong></div>
-                  <div class="field-box icon-box square"><span>5. Estado</span><strong class="mini-icon alt" aria-label="Gota">&#128167;</strong></div>
-                  <div class="field-box icon-box square"><span>6. Presentación</span><strong class="mini-icon warm" aria-label="Caja">&#128230;</strong></div>
-                  <div class="field-box square"><span>7. Kg</span><strong>18</strong></div>
-                  <div class="field-box icon-box square"><span>8. Tipo</span><strong class="mini-icon warm" aria-label="Estrella">&#11088;</strong></div>
-                  <div class="field-box icon-box square"><span>9. Clase</span><strong class="mini-icon letter alt" aria-label="Clasificación A">A</strong></div>
+                  <div class="field-box species square"><span>Tipo</span><strong class="species-icon" aria-label="Pollo">&#128020;</strong></div>
+                  <div class="field-box icon-box square"><span>Atributo</span><strong class="mini-icon" aria-label="Fresco">&#127831;</strong></div>
+                  <div class="field-box icon-box square"><span>Estado</span><strong class="mini-icon alt" aria-label="Gota">&#128167;</strong></div>
+                  <div class="field-box icon-box square"><span>Presentación</span><strong class="mini-icon warm" aria-label="Caja">&#128230;</strong></div>
+                  <div class="field-box square"><span>Kg</span><strong>18</strong></div>
+                  <div class="field-box icon-box square"><span>Tipo</span><strong class="mini-icon warm" aria-label="Estrella">&#11088;</strong></div>
+                  <div class="field-box icon-box square"><span>Clase</span><strong class="mini-icon letter alt" aria-label="Clasificación A">A</strong></div>
                 </div>
                 <div class="grid-row metrics">
-                  <div class="field-box sales square"><span>10. Venta semanal</span><strong>96</strong></div>
-                  <div class="field-box stock square"><span>11. Inv. seguro</span><strong>24</strong></div>
-                  <div class="field-box goal square"><span>12. Objetivo</span><strong>120</strong></div>
-                  <div class="field-box supplied square"><span>13. Surtido</span><strong>88</strong></div>
-                  <div class="field-box missing highlight square"><span>14. Faltante</span><strong>32</strong></div>
-                  <div class="field-box weekend square"><span>15. Fin semana</span><strong>18</strong></div>
-                  <div class="field-box loss square"><span>16. Venta perdida</span><strong>7</strong></div>
+                  <div class="field-box sales square"><span>Venta semanal</span><strong>96</strong></div>
+                  <div class="field-box stock square"><span>Inv. seguro</span><strong>24</strong></div>
+                  <div class="field-box goal square"><span>Objetivo</span><strong>120</strong></div>
+                  <div class="field-box supplied square"><span>Surtido</span><strong>88</strong></div>
+                  <div class="field-box missing highlight square"><span>Faltante</span><strong>32</strong></div>
+                  <div class="field-box weekend square"><span>Fin semana</span><strong>18</strong></div>
+                  <div class="field-box loss square"><span>Venta perdida</span><strong>7</strong></div>
                 </div>
               </div>
             </article>
             <div class="detail-scroll">
               <article class="detail-card">
-                <strong>Más información del mismo producto por día de la semana</strong>
                 <div class="detail-list">
-                  <div class="day-box"><span>Lun</span><strong>12</strong></div>
-                  <div class="day-box"><span>Mar</span><strong>13</strong></div>
-                  <div class="day-box"><span>Mié</span><strong>14</strong></div>
-                  <div class="day-box"><span>Jue</span><strong>11</strong></div>
-                  <div class="day-box"><span>Vie</span><strong>16</strong></div>
-                  <div class="day-box"><span>Sáb</span><strong>18</strong></div>
-                  <div class="day-box"><span>Dom</span><strong>12</strong></div>
-                  <div class="day-box"><span>Prom</span><strong>13.7</strong></div>
-                  <div class="day-box"><span>Pico</span><strong>18</strong></div>
-                  <div class="day-box"><span>Mín</span><strong>11</strong></div>
-                  <div class="day-box"><span>Tend.</span><strong>Alta</strong></div>
-                  <div class="day-box"><span>Merma</span><strong>1</strong></div>
-                  <div class="day-box"><span>Backorder</span><strong>4</strong></div>
-                  <div class="day-box"><span>Obs.</span><strong>OK</strong></div>
+                  <div class="metric-box is-sales"><span>1. Ventas anteriores</span><strong>0.00</strong></div>
+                  <div class="metric-box is-sales"><span>2. Ventas actuales</span><strong>0.00</strong></div>
+                  <div class="metric-box is-muted"><span>3. Dif - ventas</span><strong>0.00</strong></div>
+                  <div class="metric-box is-warning"><span>4. Mermas</span><strong>0.00</strong></div>
+                  <div class="metric-box is-stock"><span>5. Inventario</span><strong>160.00</strong></div>
+                  <div class="metric-box is-order"><span>6. Pedido</span><strong>180.00</strong></div>
+                  <div class="metric-box is-order"><span>7. Agregado</span><strong>0.00</strong></div>
+                  <div class="metric-box is-order"><span>8. Pedido total</span><strong>180.00</strong></div>
+                  <div class="metric-box is-sales"><span>9. Venta</span><strong>244.71</strong></div>
+                  <div class="metric-box is-stock"><span>10. Exhibicion</span><strong>75.00</strong></div>
+                  <div class="metric-box is-muted"><span>11. Extra</span><strong>0.00</strong></div>
+                  <div class="metric-box is-accent"><span>12. Objetivo inmediato</span><strong>320.00</strong></div>
+                  <div class="metric-box is-stock"><span>13. Proyeccion</span><strong>340.00</strong></div>
+                  <div class="metric-box is-positive"><span>14. Diferencia</span><strong>20.00</strong></div>
+                  <div class="metric-box is-order"><span>15. Traspaso</span><strong>170.50</strong></div>
+                  <div class="metric-box is-warning"><span>16. Devolucion sucursal</span><strong>0.00</strong></div>
+                  <div class="metric-box is-muted"><span>17. Observacion</span><strong>OK</strong></div>
+                  <button class="metric-action" type="button">Más Información</button>
                 </div>
               </article>
             </div>
@@ -591,47 +836,50 @@
             <article class="product-card">
               <div class="product-grid">
                 <div class="grid-row top">
-                  <div class="field-box id"><span>1. PLU</span><strong>11703</strong></div>
-                  <div class="field-box name product-name"><span>2. Producto</span><strong>Carne molida premium</strong></div>
+                  <div class="field-box id"><span>PLU</span><strong>11703</strong></div>
+                  <div class="field-box name product-name"><span>Producto</span><strong>Carne molida premium</strong></div>
                 </div>
                 <div class="grid-row metrics">
-                  <div class="field-box species square"><span>3. Tipo</span><strong class="species-icon" aria-label="Res">&#128046;</strong></div>
-                  <div class="field-box icon-box square"><span>4. Atributo</span><strong class="mini-icon warm" aria-label="Carne">&#128298;</strong></div>
-                  <div class="field-box icon-box square"><span>5. Estado</span><strong class="mini-icon alt" aria-label="Búsqueda">&#128269;</strong></div>
-                  <div class="field-box icon-box square"><span>6. Presentación</span><strong class="mini-icon warm" aria-label="Caja">&#128230;</strong></div>
-                  <div class="field-box square"><span>7. Kg</span><strong>15</strong></div>
-                  <div class="field-box icon-box square"><span>8. Tipo</span><strong class="mini-icon" aria-label="Ganado">&#128046;</strong></div>
-                  <div class="field-box icon-box square"><span>9. Clase</span><strong class="mini-icon letter warm" aria-label="Clasificación B">B</strong></div>
+                  <div class="field-box species square"><span>Tipo</span><strong class="species-icon" aria-label="Res">&#128046;</strong></div>
+                  <div class="field-box icon-box square"><span>Atributo</span><strong class="mini-icon warm" aria-label="Carne">&#128298;</strong></div>
+                  <div class="field-box icon-box square"><span>Estado</span><strong class="mini-icon alt" aria-label="Búsqueda">&#128269;</strong></div>
+                  <div class="field-box icon-box square"><span>Presentación</span><strong class="mini-icon warm" aria-label="Caja">&#128230;</strong></div>
+                  <div class="field-box square"><span>Kg</span><strong>15</strong></div>
+                  <div class="field-box icon-box square"><span>Tipo</span><strong class="mini-icon" aria-label="Ganado">&#128046;</strong></div>
+                  <div class="field-box icon-box square"><span>Clase</span><strong class="mini-icon letter warm" aria-label="Clasificación B">B</strong></div>
                 </div>
                 <div class="grid-row metrics">
-                  <div class="field-box sales square"><span>10. Venta semanal</span><strong>72</strong></div>
-                  <div class="field-box stock square"><span>11. Inv. seguro</span><strong>16</strong></div>
-                  <div class="field-box goal square"><span>12. Objetivo</span><strong>90</strong></div>
-                  <div class="field-box supplied square"><span>13. Surtido</span><strong>60</strong></div>
-                  <div class="field-box missing highlight square"><span>14. Faltante</span><strong>30</strong></div>
-                  <div class="field-box weekend square"><span>15. Fin semana</span><strong>12</strong></div>
-                  <div class="field-box loss square"><span>16. Venta perdida</span><strong>4</strong></div>
+                  <div class="field-box sales square"><span>Venta semanal</span><strong>72</strong></div>
+                  <div class="field-box stock square"><span>Inv. seguro</span><strong>16</strong></div>
+                  <div class="field-box goal square"><span>Objetivo</span><strong>90</strong></div>
+                  <div class="field-box supplied square"><span>Surtido</span><strong>60</strong></div>
+                  <div class="field-box missing highlight square"><span>Faltante</span><strong>30</strong></div>
+                  <div class="field-box weekend square"><span>Fin semana</span><strong>12</strong></div>
+                  <div class="field-box loss square"><span>Venta perdida</span><strong>4</strong></div>
                 </div>
               </div>
             </article>
             <div class="detail-scroll">
               <article class="detail-card">
-                <strong>Más información del mismo producto por día de la semana</strong>
                 <div class="detail-list">
-                  <div class="day-box"><span>Lun</span><strong>9</strong></div>
-                  <div class="day-box"><span>Mar</span><strong>10</strong></div>
-                  <div class="day-box"><span>Mié</span><strong>11</strong></div>
-                  <div class="day-box"><span>Jue</span><strong>8</strong></div>
-                  <div class="day-box"><span>Vie</span><strong>12</strong></div>
-                  <div class="day-box"><span>Sáb</span><strong>13</strong></div>
-                  <div class="day-box"><span>Dom</span><strong>9</strong></div>
-                  <div class="day-box"><span>Prom</span><strong>10.3</strong></div>
-                  <div class="day-box"><span>Pico</span><strong>13</strong></div>
-                  <div class="day-box"><span>Mín</span><strong>8</strong></div>
-                  <div class="day-box"><span>Tend.</span><strong>Media</strong></div>
-                  <div class="day-box"><span>Merma</span><strong>2</strong></div>
-                  <div class="day-box"><span>Backorder</span><strong>3</strong></div>
-                  <div class="day-box"><span>Obs.</span><strong>Revisar</strong></div>
+                  <div class="metric-box is-sales"><span>1. Ventas anteriores</span><strong>0.00</strong></div>
+                  <div class="metric-box is-sales"><span>2. Ventas actuales</span><strong>0.00</strong></div>
+                  <div class="metric-box is-muted"><span>3. Dif - ventas</span><strong>0.00</strong></div>
+                  <div class="metric-box is-warning"><span>4. Mermas</span><strong>1.00</strong></div>
+                  <div class="metric-box is-stock"><span>5. Inventario</span><strong>132.00</strong></div>
+                  <div class="metric-box is-order"><span>6. Pedido</span><strong>148.00</strong></div>
+                  <div class="metric-box is-order"><span>7. Agregado</span><strong>6.00</strong></div>
+                  <div class="metric-box is-order"><span>8. Pedido total</span><strong>154.00</strong></div>
+                  <div class="metric-box is-sales"><span>9. Venta</span><strong>198.40</strong></div>
+                  <div class="metric-box is-stock"><span>10. Exhibicion</span><strong>58.00</strong></div>
+                  <div class="metric-box is-muted"><span>11. Extra</span><strong>4.00</strong></div>
+                  <div class="metric-box is-accent"><span>12. Objetivo inmediato</span><strong>250.00</strong></div>
+                  <div class="metric-box is-stock"><span>13. Proyeccion</span><strong>268.00</strong></div>
+                  <div class="metric-box is-positive"><span>14. Diferencia</span><strong>18.00</strong></div>
+                  <div class="metric-box is-order"><span>15. Traspaso</span><strong>96.20</strong></div>
+                  <div class="metric-box is-warning"><span>16. Devolucion sucursal</span><strong>2.00</strong></div>
+                  <div class="metric-box is-muted"><span>17. Observacion</span><strong>Revisar</strong></div>
+                  <button class="metric-action" type="button">Más Información</button>
                 </div>
               </article>
             </div>
@@ -641,47 +889,50 @@
             <article class="product-card">
               <div class="product-grid">
                 <div class="grid-row top">
-                  <div class="field-box id"><span>1. PLU</span><strong>12888</strong></div>
-                  <div class="field-box name product-name"><span>2. Producto</span><strong>Queso panela artesanal</strong></div>
+                  <div class="field-box id"><span>PLU</span><strong>12888</strong></div>
+                  <div class="field-box name product-name"><span>Producto</span><strong>Queso panela artesanal</strong></div>
                 </div>
                 <div class="grid-row metrics">
-                  <div class="field-box species square"><span>3. Tipo</span><strong class="species-icon" aria-label="Lácteos">&#128046;</strong></div>
-                  <div class="field-box icon-box square"><span>4. Atributo</span><strong class="mini-icon alt" aria-label="Congelado">&#10052;</strong></div>
-                  <div class="field-box icon-box square"><span>5. Estado</span><strong class="mini-icon alt" aria-label="Registro">&#128197;</strong></div>
-                  <div class="field-box icon-box square"><span>6. Presentación</span><strong class="mini-icon warm" aria-label="Caja">&#128230;</strong></div>
-                  <div class="field-box square"><span>7. Kg</span><strong>10</strong></div>
-                  <div class="field-box icon-box square"><span>8. Tipo</span><strong class="mini-icon warm" aria-label="Estrella">&#11088;</strong></div>
-                  <div class="field-box icon-box square"><span>9. Clase</span><strong class="mini-icon letter alt" aria-label="Clasificación A">A</strong></div>
+                  <div class="field-box species square"><span>Tipo</span><strong class="species-icon" aria-label="Lácteos">&#128046;</strong></div>
+                  <div class="field-box icon-box square"><span>Atributo</span><strong class="mini-icon alt" aria-label="Congelado">&#10052;</strong></div>
+                  <div class="field-box icon-box square"><span>Estado</span><strong class="mini-icon alt" aria-label="Registro">&#128197;</strong></div>
+                  <div class="field-box icon-box square"><span>Presentación</span><strong class="mini-icon warm" aria-label="Caja">&#128230;</strong></div>
+                  <div class="field-box square"><span>Kg</span><strong>10</strong></div>
+                  <div class="field-box icon-box square"><span>Tipo</span><strong class="mini-icon warm" aria-label="Estrella">&#11088;</strong></div>
+                  <div class="field-box icon-box square"><span>Clase</span><strong class="mini-icon letter alt" aria-label="Clasificación A">A</strong></div>
                 </div>
                 <div class="grid-row metrics">
-                  <div class="field-box sales square"><span>10. Venta semanal</span><strong>58</strong></div>
-                  <div class="field-box stock square"><span>11. Inv. seguro</span><strong>14</strong></div>
-                  <div class="field-box goal square"><span>12. Objetivo</span><strong>70</strong></div>
-                  <div class="field-box supplied square"><span>13. Surtido</span><strong>49</strong></div>
-                  <div class="field-box missing highlight square"><span>14. Faltante</span><strong>21</strong></div>
-                  <div class="field-box weekend square"><span>15. Fin semana</span><strong>11</strong></div>
-                  <div class="field-box loss square"><span>16. Venta perdida</span><strong>3</strong></div>
+                  <div class="field-box sales square"><span>Venta semanal</span><strong>58</strong></div>
+                  <div class="field-box stock square"><span>Inv. seguro</span><strong>14</strong></div>
+                  <div class="field-box goal square"><span>Objetivo</span><strong>70</strong></div>
+                  <div class="field-box supplied square"><span>Surtido</span><strong>49</strong></div>
+                  <div class="field-box missing highlight square"><span>Faltante</span><strong>21</strong></div>
+                  <div class="field-box weekend square"><span>Fin semana</span><strong>11</strong></div>
+                  <div class="field-box loss square"><span>Venta perdida</span><strong>3</strong></div>
                 </div>
               </div>
             </article>
             <div class="detail-scroll">
               <article class="detail-card">
-                <strong>Más información del mismo producto por día de la semana</strong>
                 <div class="detail-list">
-                  <div class="day-box"><span>Lun</span><strong>7</strong></div>
-                  <div class="day-box"><span>Mar</span><strong>8</strong></div>
-                  <div class="day-box"><span>Mié</span><strong>9</strong></div>
-                  <div class="day-box"><span>Jue</span><strong>7</strong></div>
-                  <div class="day-box"><span>Vie</span><strong>10</strong></div>
-                  <div class="day-box"><span>Sáb</span><strong>11</strong></div>
-                  <div class="day-box"><span>Dom</span><strong>6</strong></div>
-                  <div class="day-box"><span>Prom</span><strong>8.3</strong></div>
-                  <div class="day-box"><span>Pico</span><strong>11</strong></div>
-                  <div class="day-box"><span>Mín</span><strong>6</strong></div>
-                  <div class="day-box"><span>Tend.</span><strong>Estable</strong></div>
-                  <div class="day-box"><span>Merma</span><strong>1</strong></div>
-                  <div class="day-box"><span>Backorder</span><strong>2</strong></div>
-                  <div class="day-box"><span>Obs.</span><strong>OK</strong></div>
+                  <div class="metric-box is-sales"><span>1. Ventas anteriores</span><strong>0.00</strong></div>
+                  <div class="metric-box is-sales"><span>2. Ventas actuales</span><strong>0.00</strong></div>
+                  <div class="metric-box is-muted"><span>3. Dif - ventas</span><strong>0.00</strong></div>
+                  <div class="metric-box is-warning"><span>4. Mermas</span><strong>0.50</strong></div>
+                  <div class="metric-box is-stock"><span>5. Inventario</span><strong>98.00</strong></div>
+                  <div class="metric-box is-order"><span>6. Pedido</span><strong>120.00</strong></div>
+                  <div class="metric-box is-order"><span>7. Agregado</span><strong>4.00</strong></div>
+                  <div class="metric-box is-order"><span>8. Pedido total</span><strong>124.00</strong></div>
+                  <div class="metric-box is-sales"><span>9. Venta</span><strong>152.30</strong></div>
+                  <div class="metric-box is-stock"><span>10. Exhibicion</span><strong>40.00</strong></div>
+                  <div class="metric-box is-muted"><span>11. Extra</span><strong>2.00</strong></div>
+                  <div class="metric-box is-accent"><span>12. Objetivo inmediato</span><strong>188.00</strong></div>
+                  <div class="metric-box is-stock"><span>13. Proyeccion</span><strong>201.00</strong></div>
+                  <div class="metric-box is-positive"><span>14. Diferencia</span><strong>13.00</strong></div>
+                  <div class="metric-box is-order"><span>15. Traspaso</span><strong>74.60</strong></div>
+                  <div class="metric-box is-warning"><span>16. Devolucion sucursal</span><strong>1.00</strong></div>
+                  <div class="metric-box is-muted"><span>17. Observacion</span><strong>OK</strong></div>
+                  <button class="metric-action" type="button">Más Información</button>
                 </div>
               </article>
             </div>
@@ -691,47 +942,50 @@
             <article class="product-card">
               <div class="product-grid">
                 <div class="grid-row top">
-                  <div class="field-box id"><span>1. PLU</span><strong>13205</strong></div>
-                  <div class="field-box name product-name"><span>2. Producto</span><strong>Jamón de pavo rebanado</strong></div>
+                  <div class="field-box id"><span>PLU</span><strong>13205</strong></div>
+                  <div class="field-box name product-name"><span>Producto</span><strong>Jamón de pavo rebanado</strong></div>
                 </div>
                 <div class="grid-row metrics">
-                  <div class="field-box species square"><span>3. Tipo</span><strong class="species-icon" aria-label="Pavo">&#128020;</strong></div>
-                  <div class="field-box icon-box square"><span>4. Atributo</span><strong class="mini-icon warm" aria-label="Corte">&#9660;</strong></div>
-                  <div class="field-box icon-box square"><span>5. Estado</span><strong class="mini-icon alt" aria-label="Llamada">&#128222;</strong></div>
-                  <div class="field-box icon-box square"><span>6. Presentación</span><strong class="mini-icon warm" aria-label="Caja">&#128230;</strong></div>
-                  <div class="field-box square"><span>7. Kg</span><strong>08</strong></div>
-                  <div class="field-box icon-box square"><span>8. Tipo</span><strong class="mini-icon warm" aria-label="Marca">&#127775;</strong></div>
-                  <div class="field-box icon-box square"><span>9. Clase</span><strong class="mini-icon letter" aria-label="Clasificación C">C</strong></div>
+                  <div class="field-box species square"><span>Tipo</span><strong class="species-icon" aria-label="Pavo">&#128020;</strong></div>
+                  <div class="field-box icon-box square"><span>Atributo</span><strong class="mini-icon warm" aria-label="Corte">&#9660;</strong></div>
+                  <div class="field-box icon-box square"><span>Estado</span><strong class="mini-icon alt" aria-label="Llamada">&#128222;</strong></div>
+                  <div class="field-box icon-box square"><span>Presentación</span><strong class="mini-icon warm" aria-label="Caja">&#128230;</strong></div>
+                  <div class="field-box square"><span>Kg</span><strong>08</strong></div>
+                  <div class="field-box icon-box square"><span>Tipo</span><strong class="mini-icon warm" aria-label="Marca">&#127775;</strong></div>
+                  <div class="field-box icon-box square"><span>Clase</span><strong class="mini-icon letter" aria-label="Clasificación C">C</strong></div>
                 </div>
                 <div class="grid-row metrics">
-                  <div class="field-box sales square"><span>10. Venta semanal</span><strong>64</strong></div>
-                  <div class="field-box stock square"><span>11. Inv. seguro</span><strong>18</strong></div>
-                  <div class="field-box goal square"><span>12. Objetivo</span><strong>82</strong></div>
-                  <div class="field-box supplied square"><span>13. Surtido</span><strong>55</strong></div>
-                  <div class="field-box missing highlight square"><span>14. Faltante</span><strong>27</strong></div>
-                  <div class="field-box weekend square"><span>15. Fin semana</span><strong>9</strong></div>
-                  <div class="field-box loss square"><span>16. Venta perdida</span><strong>5</strong></div>
+                  <div class="field-box sales square"><span>Venta semanal</span><strong>64</strong></div>
+                  <div class="field-box stock square"><span>Inv. seguro</span><strong>18</strong></div>
+                  <div class="field-box goal square"><span>Objetivo</span><strong>82</strong></div>
+                  <div class="field-box supplied square"><span>Surtido</span><strong>55</strong></div>
+                  <div class="field-box missing highlight square"><span>Faltante</span><strong>27</strong></div>
+                  <div class="field-box weekend square"><span>Fin semana</span><strong>9</strong></div>
+                  <div class="field-box loss square"><span>Venta perdida</span><strong>5</strong></div>
                 </div>
               </div>
             </article>
             <div class="detail-scroll">
               <article class="detail-card">
-                <strong>Más información del mismo producto por día de la semana</strong>
                 <div class="detail-list">
-                  <div class="day-box"><span>Lun</span><strong>8</strong></div>
-                  <div class="day-box"><span>Mar</span><strong>8</strong></div>
-                  <div class="day-box"><span>Mié</span><strong>9</strong></div>
-                  <div class="day-box"><span>Jue</span><strong>7</strong></div>
-                  <div class="day-box"><span>Vie</span><strong>10</strong></div>
-                  <div class="day-box"><span>Sáb</span><strong>12</strong></div>
-                  <div class="day-box"><span>Dom</span><strong>10</strong></div>
-                  <div class="day-box"><span>Prom</span><strong>9.1</strong></div>
-                  <div class="day-box"><span>Pico</span><strong>12</strong></div>
-                  <div class="day-box"><span>Mín</span><strong>7</strong></div>
-                  <div class="day-box"><span>Tend.</span><strong>Media</strong></div>
-                  <div class="day-box"><span>Merma</span><strong>2</strong></div>
-                  <div class="day-box"><span>Backorder</span><strong>3</strong></div>
-                  <div class="day-box"><span>Obs.</span><strong>OK</strong></div>
+                  <div class="metric-box is-sales"><span>1. Ventas anteriores</span><strong>0.00</strong></div>
+                  <div class="metric-box is-sales"><span>2. Ventas actuales</span><strong>0.00</strong></div>
+                  <div class="metric-box is-muted"><span>3. Dif - ventas</span><strong>0.00</strong></div>
+                  <div class="metric-box is-warning"><span>4. Mermas</span><strong>0.80</strong></div>
+                  <div class="metric-box is-stock"><span>5. Inventario</span><strong>110.00</strong></div>
+                  <div class="metric-box is-order"><span>6. Pedido</span><strong>126.00</strong></div>
+                  <div class="metric-box is-order"><span>7. Agregado</span><strong>3.00</strong></div>
+                  <div class="metric-box is-order"><span>8. Pedido total</span><strong>129.00</strong></div>
+                  <div class="metric-box is-sales"><span>9. Venta</span><strong>164.85</strong></div>
+                  <div class="metric-box is-stock"><span>10. Exhibicion</span><strong>46.00</strong></div>
+                  <div class="metric-box is-muted"><span>11. Extra</span><strong>1.00</strong></div>
+                  <div class="metric-box is-accent"><span>12. Objetivo inmediato</span><strong>210.00</strong></div>
+                  <div class="metric-box is-stock"><span>13. Proyeccion</span><strong>224.00</strong></div>
+                  <div class="metric-box is-positive"><span>14. Diferencia</span><strong>14.00</strong></div>
+                  <div class="metric-box is-order"><span>15. Traspaso</span><strong>82.40</strong></div>
+                  <div class="metric-box is-warning"><span>16. Devolucion sucursal</span><strong>1.50</strong></div>
+                  <div class="metric-box is-muted"><span>17. Observacion</span><strong>OK</strong></div>
+                  <button class="metric-action" type="button">Más Información</button>
                 </div>
               </article>
             </div>
